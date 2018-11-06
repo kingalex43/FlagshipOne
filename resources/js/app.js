@@ -7,8 +7,31 @@
 
 require('./bootstrap');
 
-
 window.Vue = require('vue');
+
+import VueRouter from 'vue-router'
+Vue.use(VueRouter)
+
+let routes = [
+    { path: '/customers', component: require('./components/Customers.vue') },
+    { path: '/dashboard', component: require('./components/Dashboard.vue') },
+    { path: '/orders', component: require('./components/Orders.vue') },
+    { path: '/profile', component: require('./components/Profile.vue') },
+    { path: '/stock', component: require('./components/Stock.vue') },
+    { path: '/tickets', component: require('./components/Tickets.vue') },
+  ]
+
+  const router = new VueRouter({
+      mode:'history',
+    routes // short for `routes: routes`
+  })
+  
+ 
+
+
+
+ 
+
 
 /**
  * The following block of code may be used to automatically register your
@@ -33,5 +56,6 @@ Vue.component('example-component', require('./components/ExampleComponent.vue'))
  */
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    router
 });
