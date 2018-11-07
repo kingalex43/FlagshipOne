@@ -19,9 +19,9 @@ let routes = [
     { path: '/profile', component: require('./components/Profile.vue') },
     { path: '/stock', component: require('./components/Stock.vue') },
     { path: '/tickets', component: require('./components/Tickets.vue') },
-  ]
-
-  const router = new VueRouter({
+    { path: '/users', component: require('./components/Users.vue') },
+]
+    const router = new VueRouter({
       mode:'history',
     routes // short for `routes: routes`
   })

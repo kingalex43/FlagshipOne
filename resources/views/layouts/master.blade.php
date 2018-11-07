@@ -130,6 +130,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 
               </p>
               </router-link>
+
+
+              <li class="nav-item has-treeview">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fa fa-cog green"></i>
+            <p>
+              Management
+              <i class="right fa fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <router-link to="/Users" class="nav-link">
+                <i class="fas fa-users nav-icon"></i>
+                <p>Users</p>
+              </router-link>
+              </li>
+              
+            </ul>
+          </li>
+
 </li>
           <li class="nav-item">
                   <a class="nav-link" href="{{ route('logout') }}"
@@ -146,33 +167,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </form>
           </li>
           
-          <!-- !-----------------------------me!-->
-
-          <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link">
-            <i class="fas fa-cogs"></i>
-              <p>
-                Management
-                <i class="right fa fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="fa fa-circle-o nav-icon"></i>
-                  <p>Active Page</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="fa fa-circle-o nav-icon"></i>
-                  <p>Inactive Page</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-
-        </ul>
+          
       </nav>
       <!-- /.sidebar-menu -->
     </div>
@@ -182,7 +177,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
      
-    <!-- Main content -->
+    <!-- Main content --> 
     <div class="content">
       <div class="container-fluid">
       <router-view></router-view>

@@ -17,13 +17,14 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('type')->default('user');
+            $table->mediumText('bio')->nullable();
+            $table->string('photo')->default('support.png');
             $table->rememberToken();
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      *
