@@ -23,7 +23,7 @@
             
             body {
                 /* Workaround for some mobile browsers */
-                background: url('/img/fs1d.jpg') no-repeat center center;
+                background: url('/img/fs1d.png') no-repeat center center;
                 background-size: cover;
                 min-height: 100vh;
                 padding-top: 20px;
@@ -63,9 +63,9 @@
             }
 
             .links > a {
-                color: green;
+                color: gold;
                 padding: 0 25px;
-                font-size: 13px;
+                font-size: 35px;
                 font-weight: 600;
                 letter-spacing: .1rem;
                 text-decoration: none;
@@ -96,7 +96,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    FlagshipOne 
+                     
                 </div>
 
             </div>
