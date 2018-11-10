@@ -8,8 +8,7 @@
                                <h3 class="card-title">Users Table</h3>
                            
                                <div class="card-tools">
-                                 <button class="btn btn-success" data-toggle="modal"
-                                  data-target="#addNew">Add New<i class="fas fa-user-plus fa-fw"></i></button>
+                                 <button class="btn btn-success" @click="newModal">Add New<i class="fas fa-user-plus fa-fw"></i></button>
                                  </div>
 
                      <div class="card-body table-responsive p-0">
@@ -31,18 +30,17 @@
                             <td>{{user.type | upText}}</td>
                             <td>{{user.created_at | myDate}}</td>
                     
-                            <td>
-                                            <a href="#">
+                                   <td>
+                                        <a href="#" @click="editModal(user)">
                                             <i class="fa fa-edit blue"></i>
-                                            </a>
-                                            /
-                                            <a class="#">
-                                              <i class="fa fa-trash red"></i>
-                                              </a>
+                                        </a>
+                                        /
+                                        <a href="#" @click="deleteUser(user.id)">
+                                            <i class="fa fa-trash red"></i>
+                                        </a>
 
-
-                          </td>
-                          
+                                   </td>
+                                                  
                           </tr>
                             
                         </tbody>
@@ -156,17 +154,65 @@ class="form-control" :class="{ 'is-invalid': form.errors.has('email') }">
           },
 
             methods:{
+              newModal(){
+                  this.form.reset();
+                  $('#addNew').modal('show')
+              },
+                    deleteUser(id){
+                      swal({
+                              title: 'Are you sure?',
+                              text: "You won't be able to revert this!",
+                              type: 'warning',
+                              showCancelButton: true,
+                              confirmButtonColor: '#3085d6',
+                              cancelButtonColor: '#d33',
+                              confirmButtonText: 'Yes, delete it!'
+                            }).then((result) => {
+
+                                      // Send request to the server
+                         if (result.value) {
+                                this.form.delete('api/user/'+id).then(()=>{
+                                        swal(
+                                        'Deleted!',
+                                        'Your file has been deleted.',
+                                        'success'
+                                        )
+                                    Fire.$emit('AfterCreate');
+                                }).catch(()=> {
+                                    swal("Failed!", "There was something wrong.", "warning");
+                                });
+                         }
+                    })
+                         },
               loadUsers(){
                   axios.get("api/user").then(({data}) =>(this.users = data.data));             
               },
               createUser(){
-                this.form.post('api/user');
-              }
-
-            },
+                this.$Progress.start();
+                this.form.post('api/user')
+                .then(()=>{
+                    Fire.$emit('AfterCreate');
+                    $('#addNew').modal('hide')
+                    toast({
+                        type: 'success',
+                        title: 'User Created in successfully'
+                        })
+                    this.$Progress.finish();
+                })
+                .catch(()=>{
+                })
+            }
+        },
 
         created() {
             this.loadUsers();
-            },
+             
+
+                    Fire.$on('AfterCreate',() => {
+               this.loadUsers();
+           }); 
+
+
+            }
     }
 </script>

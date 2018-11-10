@@ -8,14 +8,34 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+
 import { Form, HasError, AlertError } from 'vform';
 import moment from 'moment';
 window.Form = Form;
+
+
+import swal from 'sweetalert2'
+window.swal = swal;
+
+const toast = swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 5000
+});
+
+window.toast = toast;
+
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
-
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
+import VueProgressBar from 'vue-progressbar'
+Vue.use(VueProgressBar, {
+  color: '#bffaf3',
+  failedColor: '#874b4b',
+  thickness: '7px',
+})
 
 let routes = [
     { path: '/customers', component: require('./components/Customers.vue') },
@@ -32,6 +52,8 @@ let routes = [
   })
   
  
+  window.Fire =  new Vue();
+
   Vue.filter('upText', function(text){
     return text.charAt(0).toUpperCase() + text.slice(1)
 });
