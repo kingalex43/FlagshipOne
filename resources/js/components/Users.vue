@@ -3,12 +3,13 @@
                     <div class="container">
                      <div class="row-mt-5"
                        div class="col-md-12"
+                         
                           <div class="card"
                              <div class="card-header"
                                <h3 class="card-title">Users Table</h3>
                            
                                <div class="card-tools">
-                                 <button class="btn btn-success" @click="newModal">Add New<i class="fas fa-user-plus fa-fw"></i></button>
+                                 <button class="btn.lg btn-success" @click="newModal">Add New<i class="fas fa-user-plus fa-fw"></i></button>
                                  </div>
 
                      <div class="card-body table-responsive p-0">
@@ -23,7 +24,7 @@
                               <th>Modify</th>
                         </tr>
 
-                       <tr v-for="user in users" :key="user.id">                  
+                       <tr v-for="user in users.data" :key="user.id">                  
                             <td>{{user.id}}</td>
                             <td>{{user.name}}</td>
                             <td>{{user.email}}</td>
@@ -43,34 +44,39 @@
                                                   
                           </tr>
                             
-                        </tbody>
-                        </table>
-                     
+                        </tbody> </table>
+                            
+                            <div class="card-footer">
+                              <pagination :data="users" 
+                              @pagination-change-page="getResults"></pagination>
+
+                            </div>
+                       
                             <!-- Modal -->
-<div class="modal fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
-<div class="modal-dialog modal-dialog-centered" role="document">
-<div class="modal-content">
-<div class="modal-header">
-<h5 class="modal-title" v-show="!editmode" id="addNewLabel">Add New</h5>
-<h5 class="modal-title" v-show="editmode" id="addNewLabel">Update User's Info</h5>
-<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-<span aria-hidden="true">&times;</span>
-</button>
-</div>
-<form @submit.prevent="editmode ? updateUser() : createUser()">
-<div class="modal-body">
-<div class="form-group">
-<input v-model="form.name" type="text" name="name"
-placeholder="Name"
-class="form-control" :class="{ 'is-invalid': form.errors.has('name') }">
-<has-error :form="form" field="name"></has-error>
-</div>
-<div class="form-group">
-<input v-model="form.email" type="email" name="email"
-placeholder="Email Address"
-class="form-control" :class="{ 'is-invalid': form.errors.has('email') }">
-<has-error :form="form" field="email"></has-error>
-                                              </div>
+                                                <div class="modal fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                <div class="modal-header">
+                                                <h5 class="modal-title" v-show="!editmode" id="addNewLabel">Add New</h5>
+                                                <h5 class="modal-title" v-show="editmode" id="addNewLabel">Update User's Info</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                </div>
+                                                <form @submit.prevent="editmode ? updateUser() : createUser()">
+                                                <div class="modal-body">
+                                                <div class="form-group">
+                                                <input v-model="form.name" type="text" name="name"
+                                                placeholder="Name"
+                                                class="form-control" :class="{ 'is-invalid': form.errors.has('name') }">
+                                                <has-error :form="form" field="name"></has-error>
+                                                </div>
+                                                <div class="form-group">
+                                                <input v-model="form.email" type="email" name="email"
+                                                placeholder="Email Address"
+                                                class="form-control" :class="{ 'is-invalid': form.errors.has('email') }">
+                                                <has-error :form="form" field="email"></has-error>
+                                                                                              </div>
 
                                               <div class="form-group">
                                                   <textarea v-model="form.bio" name="bio" id="bio"
@@ -134,10 +140,13 @@ class="form-control" :class="{ 'is-invalid': form.errors.has('email') }">
 
 <script>
     export default {
+
           data(){
-            return{
+              return {
+              editmode : false,
                  users:{},
                  form: new Form({
+                   id:'',
                    name: '',
                    email:'',
                    password:'',
@@ -154,10 +163,45 @@ class="form-control" :class="{ 'is-invalid': form.errors.has('email') }">
           },
 
             methods:{
-              newModal(){
+    
+            getResults(page = 1) {
+			axios.get('api/user?page=' + page)
+				.then(response => {
+					this.users = response.data;
+                });
+            },
+
+            updateUser(){
+                this.$Progress.start();
+                // console.log('Editing data');
+                this.form.put('api/user/'+this.form.id)
+                .then(() => {
+                    // success
+                    $('#addNew').modal('hide');
+                     swal(
+                        'Updated!',
+                        'Information has been updated.',
+                        'success'
+                        )
+                        this.$Progress.finish();
+                         Fire.$emit('AfterCreate');
+                })
+                .catch(() => {
+                    this.$Progress.fail();
+                });
+            },
+              editModal(user){
+                 this.editmode = true;
+                  this.form.reset();
+                  $('#addNew').modal('show');
+                  this.form.fill(user);
+              },
+             newModal(){
+                  this.editmode = false;
                   this.form.reset();
                   $('#addNew').modal('show')
               },
+              
                     deleteUser(id){
                       swal({
                               title: 'Are you sure?',
@@ -185,7 +229,7 @@ class="form-control" :class="{ 'is-invalid': form.errors.has('email') }">
                     })
                          },
               loadUsers(){
-                  axios.get("api/user").then(({data}) =>(this.users = data.data));             
+                  axios.get("api/user").then(({data}) =>(this.users = data));             
               },
               createUser(){
                 this.$Progress.start();
@@ -203,10 +247,18 @@ class="form-control" :class="{ 'is-invalid': form.errors.has('email') }">
                 })
             }
         },
-
         created() {
             this.loadUsers();
-             
+                    Fire.$on('searching',() => {
+                        let query= this.$parent.search;
+                    axios.get('api/findUser?q=' + query)
+                    .then((data) => {
+                            this.users = data.data
+                    })
+                    .catch( () => {
+
+                    })
+        })
 
                     Fire.$on('AfterCreate',() => {
                this.loadUsers();

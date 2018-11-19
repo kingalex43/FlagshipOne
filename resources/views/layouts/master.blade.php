@@ -28,16 +28,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
     
     </ul>
     <!-- SEARCH FORM -->
-    <form class="form-inline ml-3">
       <div class="input-group input-group-sm">
-        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+        <input class="form-control form-control-navbar" @keyup="searchit" v-model="search" type="search" 
+        placeholder="Search" aria-label="Search">
         <div class="input-group-append">
-          <button class="btn btn-navbar" type="submit">
+          <button class="btn btn-navbar" @click="searchit">
             <i class="fa fa-search"></i>
           </button>
         </div>
       </div>
-    </form>
+  
 
 
   </nav>
@@ -47,10 +47,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
-      <img src="./img/repair.png" alt="Stormrage Logo green" class="brand-image img-circle elevation-3"
-           style="opacity: 1.0">
-      <span class="brand-text font-weight-light  red ">STORMRAGE</span>
-    </a>
+      <img src="./img/repair.png" alt="Stormrage Logo " class="brand-image img-circle elevation-3"
+           style="opacity: 2.0">
+         </a>
+         </li>
 
     <!-- Sidebar -->
     <div class="sidebar">
@@ -74,17 +74,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
            <li class="nav-item">
            <router-link to="/dashboard" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt cyan"></i>
+              <i class="nav-icon fas fa-tachometer-alt cyan fa-2x fa-fw"></i>
               <p>
                 Dashboard
                 
               </p>
             </routter-link>
+            </li>
+
         
 
              <li class="nav-item">
             <router-link to="/customers" class="nav-link">
-            <i class="fas fa-folder green"></i>
+            <i class="fas fa-folder blue fa-fw fa-2x"></i>
               <p>
                    Customers
                 
@@ -94,7 +96,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
           <li class="nav-item">
            <router-link to="/Stock" class="nav-link">
-           <i class="fas fa-recycle purple"></i>
+           <i class="fas fa-recycle purple fa-fw fa-2x"></i>
               <p>
                 Stock
                 
@@ -104,59 +106,75 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
           <li class="nav-item">
            <router-link to="/orders" class="nav-link">
-           <i class="fab fa-stack-overflow pink"></i>
+           <i class="fab fa-jedi-order pink fa-fw fa-2x"></i>
               <p>
                 Orders
                 
               </p>
+              </router-link>
             
           </li>
 
           <li class="nav-item">
            <router-link to="/tickets" class="nav-link">
-           <i class="fas fa-ticket-alt orange"></i>
+           <i class="fas fa-wrench orange fa-fw fa-2x"></i>
               <p>
                 Tickets
                 
               </p>
             
           </router-link>
+          </li>
+
+
+          <li class="nav-item">
+           <router-link to="/developer" class="nav-link">
+           <i class="nav-icon fas fa-cogs fa-fw fa-2x"></i>
+              <p>
+                Developer
+                
+              </p>
+              </router-link>
+              </li>
+
+
          
           <li class="nav-item">
            <router-link to="/profile" class="nav-link">
-           <i class="nav-icon fas fa-user-alt yellow"></i>
+           <i class="nav-icon fas fa-user-alt yellow fa-fw fa-2x"></i>
               <p>
                 Profile
                 
               </p>
               </router-link>
+              </li>
+
 
 
               <li class="nav-item has-treeview">
-          <a href="#" class="nav-link">
-            <i class="nav-icon fa fa-cog green"></i>
-            <p>
-              Management
-              <i class="right fa fa-angle-left"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <router-link to="/Users" class="nav-link">
-                <i class="fas fa-users nav-icon"></i>
-                <p>Users</p>
-              </router-link>
-              </li>
+              <a href="#" class="nav-link">
+                <i class="nav-icon fa fa-cog green fa-fw fa-2x"></i>
+                <p>
+                  Management
+                  <i class="right fa fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <router-link to="/users" class="nav-link">
+                    <i class="fas fa-users nav-icon"></i>
+                    <p>Users</p>
+                  </router-link>
+                </li>
               
             </ul>
           </li>
 
-</li>
           <li class="nav-item">
                   <a class="nav-link" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                            <i class="fas fa-power-off red"></i>
+                                            <i class="fas fa-power-off red fa-fw fa-2x"></i>
                                     <p>
                                         {{ __('Logout') }}
                                       </p>
@@ -196,7 +214,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <footer class="main-footer">
     <!-- To the right -->
     <div class="float-right d-none d-sm-inline">
-      Anything you want
+    I'm upset Fifty thousand on my head, it's disrespect
     </div>
     <!-- Default to the left -->
     <strong>Copyright &copy; 2018 <a href="https://adminlte.io">Stormrage</a>.</strong> All rights reserved.

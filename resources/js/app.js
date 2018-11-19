@@ -21,10 +21,13 @@ const toast = swal.mixin({
   toast: true,
   position: 'top-end',
   showConfirmButton: false,
-  timer: 5000
+  timer: 3000
 });
 
 window.toast = toast;
+
+
+Vue.component('pagination', require('laravel-vue-pagination'))
 
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
@@ -45,6 +48,8 @@ let routes = [
     { path: '/stock', component: require('./components/Stock.vue') },
     { path: '/tickets', component: require('./components/Tickets.vue') },
     { path: '/users', component: require('./components/Users.vue') },
+    { path: '/developer', component: require('./components/developer.vue') },
+    { path: '*', component: require('./components/Notfound.vue') },
 ]
     const router = new VueRouter({
       mode:'history',
@@ -63,11 +68,36 @@ Vue.filter('myDate',function(created){
 });
 
 
+Vue.component(
+  'passport-clients',
+  require('./components/passport/Clients.vue')
+);
+
+Vue.component(
+  'passport-authorized-clients',
+  require('./components/passport/AuthorizedClients.vue')
+);
+
+Vue.component(
+  'passport-personal-access-tokens',
+  require('./components/passport/PersonalAccessTokens.vue')
+);
+
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 
 
 
 const app = new Vue({
     el: '#app',
-    router
+    router,
+    data:{
+          search:''
+    },
+    methods:{
+      searchit(){
+          Fire.$emit('searching');
+
+      }
+   
+    }
 });
